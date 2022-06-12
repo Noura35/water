@@ -36,14 +36,18 @@ mongoose.connect("mongodb+srv://agrosmart:agrosmart@cluster0.q1dly.mongodb.net/a
     console.log(req.body);
    });
 
-/// handle get reuests
-// sends the last 7 values
-// react app sensds this get request
+
+app.get((req, res) => {
+    res.send('hello');
+   })
+
+/*
    app.get('/api/sensors', async(req,res)=>{
  
-    const sensors = await value.find();
-       res.status(200).json(sensors);
+    //const sensors = await value.find();
+       //res.status(200).json(sensors);
    });
+   */
 
 
 const PORT = process.env.PORT || 5000; 
