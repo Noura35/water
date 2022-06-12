@@ -41,13 +41,13 @@ app.get('/',(req, res) => {
     res.send('hello');
    })
 
-/*
+
    app.get('/api/sensors', async(req,res)=>{
  
-    //const sensors = await value.find();
-       //res.status(200).json(sensors);
+       const sensors = await value.find();
+       res.status(200).json(sensors);
    });
-   */
+   
 
 
 const PORT = process.env.PORT || 5000; 
