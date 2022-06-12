@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 
-const value = require("./models/sensors.models");
+const value = require("./sensors.models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
