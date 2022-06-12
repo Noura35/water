@@ -37,7 +37,7 @@ mongoose.connect("mongodb+srv://agrosmart:agrosmart@cluster0.q1dly.mongodb.net/a
    });
 
 
-app.get((req, res) => {
+app.get('/',(req, res) => {
     res.send('hello');
    })
 
