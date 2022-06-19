@@ -48,7 +48,16 @@ app.get('/',(req, res) => {
        res.status(200).json(sensors);
    });
    
-
+ app.put('/api/sensors/:id', async(req,res)=>{
+ 
+     try {
+         await value.findOneAndUpdate(
+             { _id: req.params.id },
+             { electrovane: req.body.electrovane });
+         res.send('update with success !')
+       }catch(err){res.send(err)}
+   });
+   
 
 const PORT = process.env.PORT || 5000; 
 

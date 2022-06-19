@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 // the scheme of the item to be saved in database
 const sensorsSchema = new Schema({
 
+    idDevice: {
+        type: String,
+        default:'1001'
+        
+    },
 
     temp: {
         type: String,
