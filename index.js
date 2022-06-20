@@ -49,9 +49,10 @@ app.get('/',(req, res) => {
    
 
    });*/
-app.get('/api/sensors',(req, res)=>{
-    value.find()
-        
+app.get('/api/sensors',async(req, res)=>{
+    await value.find()
+        .then(items => res.json(items.slice(items.length - 6, items.length)))
+        .catch(err => console.log(err));
 });
    /*
  app.get('/api/sensors', async(req,res)=>{
