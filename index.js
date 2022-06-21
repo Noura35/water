@@ -42,14 +42,14 @@ app.get('/',(req, res) => {
    })
 
 
-   app.get('/electrovane', async(req,res)=>{
+   app.get('/api/sensors', async(req,res)=>{
  
        const electrovane = await value.find().sort({createdAt:-1}).limit(1);
        res.status(200).json(electrovane);
    
 
    });
-app.get('/api/sensors',async(req, res)=>{
+app.get('/sensors',async(req, res)=>{
     await value.find()
         .then(items => res.json(items.slice(items.length - 6, items.length)))
         .catch(err => console.log(err));
