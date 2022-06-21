@@ -11,26 +11,31 @@
 
 #define dhtpin 2
 #define soilpin 32
+boolean state = false;
+const int electrovane1 = 4;
 
-
-
+   
 DHT dht(dhtpin,DHT11);
 
 unsigned long epochTime;
 unsigned long dataMillis=0;
 
-const char* ntpserver="pool.ntp.org";
-String serverName = "https://smartwaterring.herokuapp.com";
+String serverName = "https://smartwaterring.herokuapp.com/api/sensors";
 
 StaticJsonDocument<500> doc;
 
- boolean state=false;
 
 void setup()
 {
   Serial.begin(115200);
+  //begin dht11 
   dht.begin();
 
+  //electrovane 
+  pinMode(electrovane1, OUTPUT);
+  digitalWrite(electrovane1, HIGH);
+
+  
   Serial.print("Connecting to ");
   Serial.print(WIFI_SSID);
   Serial.print(" with password ");
@@ -38,8 +43,8 @@ void setup()
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+  delay(500);
+  Serial.print(".");
   }
   Serial.println("");
   Serial.print("Connected to WiFi network with IP Address: ");
@@ -52,7 +57,6 @@ void loop()
  if(millis()- dataMillis > 15000 || dataMillis == 0){
 
   dataMillis =millis();
-  
   epochTime-getTime();
 
   Serial.println(epochTime);
@@ -77,6 +81,23 @@ void loop()
   Serial.print(String(moisturePercent));
   Serial.print(" %");
   Serial.print("\n ");
+
+    if (moisturePercent>30)
+  {
+    delay(1000);
+    digitalWrite(electrovane1, HIGH);
+    state=true;
+  }
+
+  else
+  {
+    delay(1000);
+    digitalWrite (electrovane1,LOW);
+    state=false;
+  
+  }
+
+  delay (1000);
 
 
   doc["temp"]= floor(temperature);
@@ -113,7 +134,6 @@ void POSTData()
       
       if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
-      serverName=serverName + "/api/sensors";
       http.begin(serverName);
       http.addHeader("Content-Type", "application/json");
 
@@ -132,7 +152,6 @@ void GETData()
       
       if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
-      serverName=serverName + "/electrovane";
       http.begin(serverName);
 
       int httpcode=http.GET();

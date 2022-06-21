@@ -44,8 +44,14 @@ app.get('/',(req, res) => {
 
    app.get('/api/sensors', async(req,res)=>{
  
-       const electrovane = await value.find().sort({createdAt:-1}).limit(1);
-       res.status(200).json(electrovane);
+       const arrosage = await value.find().sort({ createdAt: -1 }).limit(1);
+       arrosage.map((arr, key) => {
+        
+           res.status(200).send(arr.electrovane);
+  
+       })
+       
+       console.log(arrosage)
    
 
    });
