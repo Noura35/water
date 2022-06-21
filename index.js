@@ -47,7 +47,7 @@ app.get('/',(req, res) => {
        const arrosage = await value.find().sort({ createdAt: -1 }).limit(1);
        arrosage.map((arr, key) => {
         
-           res.status(200).send(arr.electrovane);
+           res.status(200).send(arr.manuelle);
   
        })
        
@@ -194,7 +194,7 @@ app.get('/sensors',async(req, res)=>{
 
  app.post('/electrovanne/on', async(req,res)=>{
   const newItem = new value({
-       electrovane: true
+       manuelle: true
     });
     // save value to database
     newItem.save()
@@ -204,7 +204,7 @@ app.get('/sensors',async(req, res)=>{
    
  app.post('/electrovanne/off', async(req,res)=>{
   const newItem = new value({
-       electrovane: false
+       manuelle: false
     });
     // save value to database
     newItem.save()

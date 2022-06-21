@@ -17,6 +17,10 @@ const sensorsSchema = new Schema({
         type: Boolean,
         default:false,
     },
+    manuelle: {
+        type: Boolean,
+        default:false,
+    },
     date: {
         type: Date,
         default: Date.now
