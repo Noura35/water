@@ -20,7 +20,7 @@ unsigned long epochTime;
 unsigned long dataMillis=0;
 
 const char* ntpserver="pool.ntp.org";
-String serverName = "https://smartwaterring.herokuapp.com/api/sensors";
+String serverName = "https://smartwaterring.herokuapp.com";
 
 StaticJsonDocument<500> doc;
 
@@ -86,6 +86,7 @@ void loop()
 
   Serial.println("update data ...");
   POSTData();
+  GETData();
   }
 }
 
@@ -112,6 +113,7 @@ void POSTData()
       
       if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
+      serverName=serverName + "/api/sensors";
       http.begin(serverName);
       http.addHeader("Content-Type", "application/json");
 
@@ -130,6 +132,7 @@ void GETData()
       
       if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
+      serverName=serverName + "/electrovane";
       http.begin(serverName);
 
       int httpcode=http.GET();
