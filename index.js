@@ -186,16 +186,25 @@ app.get('/api/sensors',async(req, res)=>{
 
 
 
- app.put('/api/sensors/:id', async(req,res)=>{
- 
-     try {
-         await value.findOneAndUpdate(
-             { _id: req.params.id },
-             { electrovane: req.body.electrovane });
-         res.send('update with success !')
-       }catch(err){res.send(err)}
+ app.post('/electrovanne/on', async(req,res)=>{
+  const newItem = new value({
+       electrovane: true
+    });
+    // save value to database
+    newItem.save()
+        .then(item => res.json(item));
+    console.log(req.body);
    });
    
+ app.post('/electrovanne/off', async(req,res)=>{
+  const newItem = new value({
+       electrovane: false
+    });
+    // save value to database
+    newItem.save()
+        .then(item => res.json(item));
+    console.log(req.body);
+   });
 
 const PORT = process.env.PORT || 5000; 
 
