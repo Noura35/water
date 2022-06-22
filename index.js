@@ -205,7 +205,8 @@ app.get('/electrovanne', async(req,res)=>{
 
  app.post('/electrovanne/on', async(req,res)=>{
   const newItem = new value({
-       manuelle: true
+      manuelle: true,
+      electrovane:true
     });
     // save value to database
     newItem.save()
@@ -215,7 +216,9 @@ app.get('/electrovanne', async(req,res)=>{
    
  app.post('/electrovanne/off', async(req,res)=>{
   const newItem = new value({
-       manuelle: false
+      manuelle: false,
+      electrovane:false
+
     });
     // save value to database
     newItem.save()
