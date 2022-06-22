@@ -1,3 +1,4 @@
+
 #include <DHT.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
@@ -7,7 +8,24 @@
 #include "time.h"
 #define WIFI_SSID "noura"
 #define WIFI_PASSWORD "password"
+#include "ESP32_MailClient.h"
+/*
+#define emailSenderAccount    "foulenpfe@gmail.com"    
+#define emailSenderPassword   "foulenPFE"
+#define emailRecipient        "belhadjamor.noura1999@gmail.com"
+#define smtpServer            "smtp.gmail.com"
+#define smtpServerPort        465
+#define emailSubject          "Humidité de sol %"
 
+// The Email Sending data object contains config and data to send
+SMTPData smtpData;
+
+// Callback function to get the Email sending status
+void sendCallback(SendStatus info);
+
+
+
+*/
 
 #define dhtpin 2
 #define soilpin 32
@@ -21,7 +39,6 @@ unsigned long epochTime;
 unsigned long dataMillis=0;
 
 String serverName = "https://smartwaterring.herokuapp.com/api/sensors";
-
 StaticJsonDocument<500> doc;
 
 
@@ -35,7 +52,7 @@ void setup()
   pinMode(electrovane1, OUTPUT);
   digitalWrite(electrovane1, HIGH);
 
-  
+  //Connexion au WIFI
   Serial.print("Connecting to ");
   Serial.print(WIFI_SSID);
   Serial.print(" with password ");
@@ -50,7 +67,37 @@ void setup()
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
   Serial.println("");
+/*
+// Set the SMTP Server Email host, port, account and password
+  smtpData.setLogin(smtpServer, smtpServerPort, emailSenderAccount, emailSenderPassword);
 
+  // Set the sender name and Email
+  smtpData.setSender("ESP32", emailSenderAccount);
+
+  // Set Email priority or importance High, Normal, Low or 1 to 5 (1 is highest)
+  smtpData.setPriority("High");
+
+  // Set the subject
+  smtpData.setSubject(emailSubject);
+
+  // Set the message with HTML format
+  smtpData.setMessage("<div style=\"color:#2f4468;\"><h1>Arabic Arduino Lessons!</h1><p>- It's youtube channel by Nader</p></div>", true);
+  // Set the email message in text format (raw)
+  //smtpData.setMessage("Hello World! - Sent from ESP32 board", false);
+
+  // Add recipients, you can add more than one recipient
+  smtpData.addRecipient(emailRecipient);
+  //smtpData.addRecipient("YOUR_OTHER_RECIPIENT_EMAIL_ADDRESS@EXAMPLE.com");
+
+  smtpData.setSendCallback(sendCallback);
+
+  //Start sending Email, can be set callback function to track the status
+  if (!MailClient.sendMail(smtpData))
+    Serial.println("Error sending Email, " + MailClient.smtpErrorReason());
+
+  //Clear all data from Email object to free memory
+  smtpData.empty();
+*/
 }
 void loop()
 {
@@ -65,7 +112,9 @@ void loop()
 
   float moisture=analogRead(soilpin);
   float moisturePercent=100.00-((moisture/4095.00)*100);
-  
+
+
+  //affichage dans le COM :
   //humidity air 
   Serial.print("Temperature : ");
   Serial.print(String(temperature));
@@ -82,6 +131,8 @@ void loop()
   Serial.print(" %");
   Serial.print("\n ");
 
+
+    //Arrosage intelligent ( automatique) 
     if (moisturePercent>30)
   {
     delay(1000);
@@ -94,20 +145,30 @@ void loop()
     delay(1000);
     digitalWrite (electrovane1,LOW);
     state=false;
-  
   }
-
   delay (1000);
 
-
+  // envoyer les données sous form de json 
   doc["temp"]= floor(temperature);
   doc["hum"]= floor(humidity);
   doc["humsol"]= floor(moisturePercent);
   doc["electrovane"]= state;
-
   Serial.println("update data ...");
   POSTData();
-  GETData();
+
+  
+//arrosage manuelle :
+  if(GETData()){
+    delay(1000);
+    digitalWrite(electrovane1, HIGH);
+    state=true;
+  }else{
+    delay(1000);
+    digitalWrite(electrovane1,LOW);
+    state=false; 
+    }
+
+    
   }
 }
 
@@ -147,7 +208,7 @@ void POSTData()
 }
 
 
-void GETData()
+bool GETData()
 {
       
       if(WiFi.status()== WL_CONNECTED){
@@ -159,6 +220,7 @@ void GETData()
         String payload=http.getString();
         Serial.println(httpcode);
         Serial.println(payload);
+        return httpcode;
 
         }else{
          Serial.println("error on http request");
@@ -166,4 +228,15 @@ void GETData()
           }
           http.end();
       }
+}
+
+// Callback function to get the Email sending status
+void sendCallback(SendStatus msg) {
+  // Print the current status
+  Serial.println(msg.info());
+
+  // Do something when complete
+  if (msg.success()) {
+    Serial.println("----------------");
+  }
 }

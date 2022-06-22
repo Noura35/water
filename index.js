@@ -38,23 +38,22 @@ mongoose.connect(url,
 
 
 app.get('/',(req, res) => {
-    res.send('hello');
+    res.send('hello heroku');
    })
 
-
+   //
    app.get('/api/sensors', async(req,res)=>{
  
        const arrosage = await value.find().sort({ createdAt: -1 }).limit(1);
        arrosage.map((arr, key) => {
-        
-           res.status(200).send(arr.manuelle);
-  
+             res.status(200).send(arr.manuelle);
        })
        
-       console.log(arrosage)
-   
+       console.log(arrosage) 
 
    });
+
+
 app.get('/sensors',async(req, res)=>{
     await value.find()
         .then(items => res.json(items.slice(items.length - 6, items.length)))
@@ -191,6 +190,18 @@ app.get('/sensors',async(req, res)=>{
 */
 
 
+app.get('/electrovanne', async(req,res)=>{
+ 
+       const arrosage = await value.find().sort({ createdAt: -1 }).limit(1);
+       arrosage.map((arr, key) => {
+             res.status(200).send(arr.electrovane);
+       })
+       
+       console.log(arrosage) 
+
+   });
+
+
 
  app.post('/electrovanne/on', async(req,res)=>{
   const newItem = new value({
@@ -211,6 +222,15 @@ app.get('/sensors',async(req, res)=>{
         .then(item => res.json(item));
     console.log(req.body);
    });
+
+
+
+
+
+
+
+
+
 
 const PORT = process.env.PORT || 5000; 
 
