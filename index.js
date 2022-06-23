@@ -48,12 +48,12 @@ app.get('/',(req, res) => {
    //
    app.get('/api/sensors', async(req,res)=>{
  
-       const moteur = await moteur.find().sort({ createdAt: -1 }).limit(1);
-       moteur.map((arr, key) => {
+       const arrosage = await moteur.find().sort({ createdAt: -1 }).limit(1);
+       arrosage.map((arr, key) => {
              res.status(200).send(arr.manuelle);
        })
        
-       console.log(moteur) 
+       console.log(arrosage) 
 
    });
 
