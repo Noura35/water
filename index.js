@@ -6,7 +6,7 @@ var assert = require('assert');
 
 
 const value = require("./sensors.models");
-const moteur = require("./moteur.models");
+const moteur = require("./moteur.model");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -230,11 +230,6 @@ app.get('/electrovanne', async(req,res)=>{
         .then(item => res.json(item));
     console.log(req.body);
    });
-
-
-
-
-
 
 
 
