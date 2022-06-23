@@ -153,6 +153,8 @@ void loop()
   doc["hum"]= floor(humidity);
   doc["humsol"]= floor(moisturePercent);
   doc["electrovane"]= state;
+  doc["manuelle"]= state;
+
   Serial.println("update data ...");
   POSTData();
  GETData();

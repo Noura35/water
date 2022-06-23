@@ -29,7 +29,9 @@ mongoose.connect(url,
        temp: req.body.temp,
        hum: req.body.hum,
        humsol: req.body.humsol,
-       electrovane: req.body.electrovane
+       electrovane: req.body.electrovane,
+       manuelle: req.body.manuelle
+
     });
     // save value to database
     newItem.save()
