@@ -153,12 +153,12 @@ void loop()
   doc["hum"]= floor(humidity);
   doc["humsol"]= floor(moisturePercent);
   doc["electrovane"]= state;
-  doc["manuelle"]= state;
+  doc["manuelle"]= GETData();
 
   Serial.println("update data ...");
   POSTData();
- GETData();
-  //digitalWrite(electrovane1, HIGH);
+ // GETData();
+   Serial.println(state);
 
 //arrosage manuelle :
   if(GETData()== true){

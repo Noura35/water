@@ -6,6 +6,7 @@ var assert = require('assert');
 
 
 const value = require("./sensors.models");
+const moteur = require("./moteur.models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -47,12 +48,12 @@ app.get('/',(req, res) => {
    //
    app.get('/api/sensors', async(req,res)=>{
  
-       const arrosage = await value.find().sort({ createdAt: -1 }).limit(1);
-       arrosage.map((arr, key) => {
+       const moteur = await moteur.find().sort({ createdAt: -1 }).limit(1);
+       moteur.map((arr, key) => {
              res.status(200).send(arr.manuelle);
        })
        
-       console.log(arrosage) 
+       console.log(moteur) 
 
    });
 
