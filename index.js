@@ -207,7 +207,7 @@ app.get('/electrovanne', async(req,res)=>{
 
 //declencher l'electrovanne 
  app.post('/electrovanne/on', async(req,res)=>{
-  const newItem = new value({
+  const newItem = new moteur({
       manuelle: true,
       electrovane:true
     });
@@ -220,7 +220,7 @@ app.get('/electrovanne', async(req,res)=>{
  
  //arreter l'electrovanne   
  app.post('/electrovanne/off', async(req,res)=>{
-  const newItem = new value({
+  const newItem = new moteur({
       manuelle: false,
       electrovane:false
 
