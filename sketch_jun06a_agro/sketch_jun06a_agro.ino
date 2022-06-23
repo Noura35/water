@@ -155,10 +155,11 @@ void loop()
   doc["electrovane"]= state;
   Serial.println("update data ...");
   POSTData();
+GETData();
+  //digitalWrite(electrovane1, HIGH);
 
-  
 //arrosage manuelle :
-  if(GETData()){
+  if(GETData()== true){
     delay(1000);
     digitalWrite(electrovane1, HIGH);
     state=true;
