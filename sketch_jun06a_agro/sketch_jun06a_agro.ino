@@ -133,7 +133,7 @@ void loop()
 
 
     //Arrosage intelligent ( automatique) 
-    if (moisturePercent>30)
+    if (moisturePercent>300)
   {
     delay(1000);
     digitalWrite(electrovane1, HIGH);
@@ -155,7 +155,7 @@ void loop()
   doc["electrovane"]= state;
   Serial.println("update data ...");
   POSTData();
-GETData();
+ GETData();
   //digitalWrite(electrovane1, HIGH);
 
 //arrosage manuelle :
